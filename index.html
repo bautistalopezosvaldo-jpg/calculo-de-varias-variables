@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cálculo - Ecuaciones Diferenciales</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0f1115;color:#fff;font-family:'Segoe UI',Arial,sans-serif;padding:14px}
+header{text-align:center;padding:26px 14px;background:linear-gradient(135deg,#6a11cb,#2575fc,#00d2ff);border-radius:20px;margin-bottom:14px}
+header h1{font-size:30px;line-height:1.1}
+header p{opacity:.95;margin-top:8px;line-height:1.4}
+header .tag{display:inline-block;margin-top:12px;background:rgba(255,255,255,.25);padding:8px 14px;border-radius:999px;font-size:13px;font-weight:700}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding:8px 2px 14px;position:sticky;top:0;background:#0f1115;z-index:20}
+.tab-btn{flex:1;min-width:125px;border:none;cursor:pointer;padding:13px 10px;border-radius:14px;background:#1e2330;color:#fff;font-weight:800;font-size:14px}
+.tab-btn.active{background:#2575fc}
+.tab-btn.active.b1{background:#ff4757}
+.tab-btn.active.b2{background:#1e90ff}
+.tab-btn.active.b3{background:#2ed573;color:#111}
+.tab-btn.active.b4{background:#ffa502;color:#111}
+.panel{display:none}
+.panel.active{display:block}
+.card{background:#1a1f2b;border:1px solid #2a3145;border-radius:20px;padding:18px}
+.badge{display:inline-block;padding:6px 12px;border-radius:999px;font-size:12px;font-weight:800}
+.b1{background:#ff4757}.b2{background:#1e90ff}.b3{background:#2ed573;color:#111}.b4{background:#ffa502;color:#111}
+h2{font-size:23px;margin:10px 0 6px}
+.enunciado{background:#0f1115;border-left:4px solid #2575fc;padding:12px;border-radius:10px;margin:12px 0;line-height:1.55;color:#dbe2ff}
+.formula{background:#fff;color:#111;text-align:center;padding:16px;border-radius:14px;font-size:24px;font-weight:800;margin:12px 0}
+.formula small{display:block;font-size:13px;font-weight:400;color:#555;margin-top:6px}
+.datos{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:12px 0}
+.dato{background:#232a3a;padding:12px;border-radius:12px}
+.dato b{color:#7ed6ff;display:block;font-size:12px;text-transform:uppercase}
+/* FOTOS LADO A LADO - ROBUSTO */
+.fotos{display:flex;gap:12px;align-items:stretch;margin:14px 0}
+.foto-box{flex:1;min-width:0;background:#10141c;border:1px solid #2a3145;border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+.foto-box figcaption{text-align:center;font-weight:800;font-size:13px;padding:10px 8px;background:#232a3a;border-bottom:1px solid #2a3145}
+.foto-box img{width:100%;height:340px;object-fit:contain;background:#fff;display:block;padding:6px}
+.funcion{background:#fff;color:#111;text-align:center;padding:14px;border-radius:12px;font-size:18px;font-weight:800;margin:12px 0;border-left:5px solid #2ed573}
+.sol{background:#12161f;border:1px dashed #3a445e;padding:12px;border-radius:12px;margin-top:12px;line-height:1.65}
+.sol b{color:#ffd700}
+.interpretacion{background:rgba(46,213,115,.12);border:1px solid rgba(46,213,115,.4);padding:12px;border-radius:12px;margin-top:12px;line-height:1.6}
+.geogebra{background:#2a2f3e;padding:12px;border-radius:12px;margin-top:12px;font-family:monospace;font-size:13px;line-height:1.7;white-space:pre-wrap;word-break:break-all}
+.btns{display:flex;gap:10px;margin-top:14px}
+.btn{flex:1;border:none;padding:12px;border-radius:12px;font-weight:800;cursor:pointer;font-size:14px}
+.btn-prev{background:#2a3145;color:#fff}
+.btn-next{background:#2575fc;color:#fff}
+footer{text-align:center;opacity:.6;font-size:12px;padding:20px}
+@media(min-width:800px){body{max-width:980px;margin:auto}.datos{grid-template-columns:repeat(4,1fr)}.foto-box img{height:380px}}
+@media(max-width:600px){.fotos{flex-direction:column}.foto-box img{height:280px}}
+</style>
+</head>
+<body>
+
+<header>
+<p>CÁLCULO DE VARIAS VARIABLES • ECUACIONES DIFERENCIALES</p>
+<h1>Ecuaciones Diferenciales<br>Ordinarias de Primer Orden</h1>
+<p>Separación de variables • Campo de direcciones • GeoGebra</p>
+<div class="tag">✏️ Mi operación + 📸 Mi gráfica</div>
+</header>
+
+<div class="tabs">
+<button class="tab-btn b1 active" onclick="showTab(0)">📕 Enunciado 1</button>
+<button class="tab-btn b2" onclick="showTab(1)">📘 Enunciado 2</button>
+<button class="tab-btn b3" onclick="showTab(2)">📗 Enunciado 3</button>
+<button class="tab-btn b4" onclick="showTab(3)">📙 Enunciado 4</button>
+</div>
+
+<!-- ================= ENUNCIADO 1 ================= -->
+<div class="panel active"><div class="card">
+<span class="badge b1">ENUNCIADO 1 • ENFRIAMIENTO</span>
+<h2>Ley de enfriamiento de Newton</h2>
+<div class="enunciado">Un cuerpo se enfría. La rapidez es proporcional a la diferencia con el ambiente (20°C). Si a t=0 está a 80°C y a t=5 min está a 50°C, ¿cuánto vale a los 10 min?</div>
+<div class="formula">dT/dt = -k(T - 20)<small>T(0)=80°C • T(5)=50°C • Ambiente = 20°C</small></div>
+<div class="datos"><div class="dato"><b>Ambiente</b>20°C</div><div class="dato"><b>Inicial</b>80°C</div><div class="dato"><b>A 5 min</b>50°C</div><div class="dato"><b>Pregunta</b>T(10)</div></div>
+<div class="fotos">
+<figure class="foto-box"><figcaption>✏️ Mi operación</figcaption><img src="g1.jpeg"></figure>
+<figure class="foto-box"><figcaption>📸 Mi gráfica en GeoGebra</figcaption><img src="grafica1.jpeg"></figure>
+</div>
+<div class="funcion"><b>Función:</b> T(t) = 20 + 60 e<sup>-0.1386 t</sup></div>
+<div class="sol"><b>Solución:</b><br>1) dT/(T-20) = -k dt<br>2) T = 20 + Ce<sup>-kt</sup><br>3) T(0)=80 → C=60<br>4) T(5)=50 → k = ln2/5 ≈ 0.1386<br>5) <b>T(10) = 35°C</b></div>
+<div class="interpretacion"><b>Interpretación:</b> Baja cada vez más lento y se acerca a 20°C sin tocarla.</div>
+<div class="geogebra">GeoGebra: f(x) = 20 + 60*exp(-0.1386*x)</div>
+<div class="btns"><button class="btn btn-prev" onclick="showTab(3)">◀ Anterior</button><button class="btn btn-next" onclick="showTab(1)">Siguiente ▶</button></div>
+</div></div>
+
+<!-- ================= ENUNCIADO 2 ================= -->
+<div class="panel"><div class="card">
+<span class="badge b2">ENUNCIADO 2 • CAÍDA LIBRE</span>
+<h2>Caída libre con resistencia del aire</h2>
+<div class="enunciado">Un paracaidista cae. La resistencia del aire es proporcional al cuadrado de la velocidad. Encuentra la velocidad terminal y la función de velocidad.</div>
+<div class="formula">dv/dt = g - (k/m) v²<small>g = 9.8 m/s² • v(0) = 0</small></div>
+<div class="datos"><div class="dato"><b>Gravedad</b>9.8 m/s²</div><div class="dato"><b>v inicial</b>0</div><div class="dato"><b>Resistencia</b>k v²</div><div class="dato"><b>Pregunta</b>v terminal</div></div>
+<div class="fotos">
+<figure class="foto-box"><figcaption>✏️ Mi operación</figcaption><img src="g2.jpeg"></figure>
+<figure class="foto-box"><figcaption>📸 Mi gráfica en GeoGebra</figcaption><img src="grafica2.png"></figure>
+</div>
+<div class="funcion"><b>Función:</b> v(t) = √(g/c) • tanh( √(g·c) • t )</div>
+<div class="sol"><b>Solución:</b><br>1) dv / (g - c v²) = dt, donde c = k/m<br>2) Integrando se llega a la tangente hiperbólica<br>3) <b>v(t) = √(g/c) • tanh( √(g·c) • t )</b><br>4) Cuando t → ∞, tanh → 1, por lo tanto <b>v terminal = √(g/c)</b></div>
+<div class="interpretacion"><b>Interpretación:</b> Al inicio acelera mucho, luego la resistencia lo frena y la velocidad se estabiliza en la velocidad terminal. Ya no acelera más.</div>
+<div class="geogebra">GeoGebra: f(x) = sqrt(9.8/0.1)*tanh(sqrt(9.8*0.1)*x) | ResuelveEDO(9.8 - 0.1*y^2, (0,0))</div>
+<div class="btns"><button class="btn btn-prev" onclick="showTab(0)">◀ Anterior</button><button class="btn btn-next" onclick="showTab(2)">Siguiente ▶</button></div>
+</div></div>
+
+<!-- ================= ENUNCIADO 3 ================= -->
+<div class="panel"><div class="card">
+<span class="badge b3">ENUNCIADO 3 • CRECIMIENTO</span>
+<h2>Crecimiento logístico</h2>
+<div class="enunciado">Una población crece con capacidad de carga K. Resuelve la ecuación logística y explica su comportamiento.</div>
+<div class="formula">dP/dt = rP (1 - P/K)<small>r = tasa • K = capacidad de carga</small></div>
+<div class="datos"><div class="dato"><b>P inicial</b>P₀</div><div class="dato"><b>Tasa</b>r</div><div class="dato"><b>Capacidad</b>K</div><div class="dato"><b>Pregunta</b>P(t)</div></div>
+<div class="fotos">
+<figure class="foto-box"><figcaption>✏️ Mi operación</figcaption><img src="g3.jpeg"></figure>
+<figure class="foto-box"><figcaption>📸 Mi gráfica en GeoGebra</figcaption><img src="grafica3.png"></figure>
+</div>
+<div class="funcion"><b>Función:</b> P(t) = K / (1 + A e<sup>-rt</sup>), A = (K-P₀)/P₀</div>
+<div class="sol"><b>Solución:</b><br>1) dP / [P(1-P/K)] = r dt<br>2) Fracciones parciales: ∫(1/P + 1/(K-P)) dP = r t + C<br>3) <b>P(t) = K / (1 + A e<sup>-rt</sup>)</b><br>4) Equilibrios: P=0 inestable, P=K estable.</div>
+<div class="interpretacion"><b>Interpretación:</b> Es una curva en forma de S. Primero crece lento, luego rápido, y al final se aplana cuando llega a K.</div>
+<div class="geogebra">GeoGebra: f(x) = 100/(1+9*exp(-0.5*x)) | ResuelveEDO(0.5*y*(1-y/100),(0,10))</div>
+<div class="btns"><button class="btn btn-prev" onclick="showTab(1)">◀ Anterior</button><button class="btn btn-next" onclick="showTab(3)">Siguiente ▶</button></div>
+</div></div>
+
+<!-- ================= ENUNCIADO 4 ================= -->
+<div class="panel"><div class="card">
+<span class="badge b4">ENUNCIADO 4 • MEZCLAS</span>
+<h2>Mezcla en un tanque</h2>
+<div class="enunciado">Un tanque tiene 100 L con 10 kg de sal. Entra agua salada a 2 L/min con 0.5 kg/L y sale mezcla a 2 L/min. ¿Cuánta sal hay a los 20 min?</div>
+<div class="formula">dS/dt = 1 - S/50<small>S(0)=10 kg • V=100 L constante</small></div>
+<div class="datos"><div class="dato"><b>Volumen</b>100 L</div><div class="dato"><b>Entrada</b>1 kg/min</div><div class="dato"><b>Salida</b>S/50</div><div class="dato"><b>Pregunta</b>S(20)</div></div>
+<div class="fotos">
+<figure class="foto-box"><figcaption>✏️ Mi operación</figcaption><img src="g4.jpeg"></figure>
+<figure class="foto-box"><figcaption>📸 Mi gráfica en GeoGebra</figcaption><img src="grafica4.png"></figure>
+</div>
+<div class="funcion"><b>Función:</b> S(t) = 50 - 40 e<sup>-t/50</sup></div>
+<div class="sol"><b>Solución:</b><br>1) dS/dt + (1/50)S = 1 → Ecuación lineal<br>2) Factor integrante: μ = e<sup>t/50</sup><br>3) <b>S(t) = 50 - 40 e<sup>-t/50</sup></b><br>4) <b>S(20) = 50 - 40 e<sup>-0.4</sup> = 23.19 kg</b></div>
+<div class="interpretacion"><b>Interpretación:</b> La sal sube de 10 kg hacia 50 kg, que es lo máximo que puede tener el tanque. Nunca pasa de 50 kg.</div>
+<div class="geogebra">GeoGebra: f(x) = 50-40*exp(-x/50) | ResuelveEDO(1-y/50,(0,10))</div>
+<div class="btns"><button class="btn btn-prev" onclick="showTab(2)">◀ Anterior</button><button class="btn btn-next" onclick="showTab(0)">Siguiente ▶</button></div>
+</div></div>
+
+<footer>Todo en un solo archivo • Enunciados 1, 2, 3 y 4</footer>
+
+<script>
+function showTab(n){
+  document.querySelectorAll('.panel').forEach((p,i)=> p.classList.toggle('active', i===n));
+  document.querySelectorAll('.tab-btn').forEach((b,i)=> b.classList.toggle('active', i===n));
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+</script>
+</body>
+</html>
